@@ -40,11 +40,16 @@ static void	ft_print_cmd(t_cmd *cmd)
 	}
 }
 
-static void	ft_print_env(char **env)
+void	ft_print_env(char **env)
 {
 	int	i;
 
 	i = -1;
+	if (env == NULL)
+	{
+		printf("this NULL\n");
+		return ;
+	}
 	while (env[++i])
 		printf("%s\n", env[i]);
 	printf("=====\n");
@@ -70,9 +75,11 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	t_cmd	cmd1;
+	// t_cmd	cmd2;
+	int		ex_s = 0;
 	char	**tmp_env = NULL;
 
-	char *cmdd[] = {"ls", NULL};
+	char *cmdd[] = {"ls", "-z", NULL};
 	char *i_tabb[] = {NULL};
 	int sign_ii[] = {0};
 	char *o_tabb[] = {NULL};
@@ -84,11 +91,22 @@ int	main(int ac, char **av, char **env)
 	cmd1.sign_o = (int *)sign_oo;
 	cmd1.next = NULL;
 	
+	// char *cmdd2[] = {"grep", "executor", NULL};
+	// char *i_tabb2[] = {NULL};
+	// int sign_ii2[] = {0};
+	// char *o_tabb2[] = {"t.txt", NULL};
+	// int sign_oo2[] = {2, 0};
+	// cmd2.cmd = (char **)cmdd2;
+	// cmd2.i_tab = (char **)i_tabb2;
+	// cmd2.sign_i = (int *)sign_ii2;
+	// cmd2.o_tab = (char **)o_tabb2;
+	// cmd2.sign_o = (int *)sign_oo2;
+	// cmd2.next = NULL;
+	
 ft_print_cmd(&cmd1);
 	ft_tmp_env(&tmp_env, env);
-// ft_print_env(tmp_env);
-	
-
+	ft_executor(&cmd1, tmp_env, &ex_s);
 	ft_free_c2d(tmp_env);
+printf("exit_status %d\n", ex_s);
 	return (0);
 }

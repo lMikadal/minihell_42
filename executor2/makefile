@@ -7,7 +7,8 @@ MAIN = main.c
 CC = gcc
 
 SRCS = g_n_l.c g_n_l_utils.c \
-		utils.c free.c
+		executor.c executor2.c executor_fork.c executor_fork2.c\
+		utils.c utils2.c utils3.c utils4.c free.c
 
 all: $(NAME)
 

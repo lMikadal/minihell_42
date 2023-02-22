@@ -48,3 +48,19 @@ char	*ft_strdupp(char *s1)
 	m[len] = '\0';
 	return (m);
 }
+
+int	ft_strncmpp(char *s1, char *s2, int n)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strlenn(s2) == 0 || ft_strlenn(s1) == 0)
+		return (1);
+	while ((s1[i] || s2[i]) && i < n)
+	{
+		if (s1[i] != s2[i])
+			return (1);
+		i++;
+	}
+	return (0);
+}

@@ -82,5 +82,6 @@ void	ft_executor(t_cmd *cmd, char **env, int	*ex_s)
 	i = -1;
 	while (++i < data.count_cmd)
 		waitpid(data.child_pid[i], NULL, 0);
+ft_print_env(data.env);
 	ft_free_data(&data);
 }

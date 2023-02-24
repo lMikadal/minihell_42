@@ -93,14 +93,16 @@ void	ft_fork(t_cmd *cmd, t_data *data, int loop)
 	{
 		ft_set_pipe(&p, data, cmd, loop);
 		ft_close(data, loop);
+		ft_chk_child(&p, data);
 		execve(p.path, p.cmd, data->env);
 		printf("%s%s\n", p.cmd[0], ERR_CMM);
 		exit (127);
 	}
 	else if (data->child_pid[loop] > 0)
 	{
+		ft_chk_parent(&p, data, cmd);
 		ft_close_parent(data, loop);
-		if (p.path == NULL)
+		if (p.path == NULL && ft_chk_builtins(p.cmd[0]))
 			*(data->ex_s) = 127;
 	}
 	ft_free_pipe(&p);

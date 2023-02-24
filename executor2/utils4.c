@@ -15,3 +15,13 @@ int	ft_strcmpp(char *s1, char *s2, int size)
 	}
 	return (1);
 }
+
+int	ft_strlen_2(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] != '=' && s[i])
+		i++;
+	return (i);
+}

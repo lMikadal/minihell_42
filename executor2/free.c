@@ -25,6 +25,7 @@ void	ft_free_data(t_data *data)
 	if (data->path != NULL)
 		ft_free_c2d(data->path);
 	free(data->child_pid);
+	ft_free_c2d(data->env);
 	if (data->count_cmd > 1)
 		ft_free_i2d(data->fd_pipe, data->count_cmd - 1);
 }

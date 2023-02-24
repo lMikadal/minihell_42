@@ -76,10 +76,10 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	t_cmd	cmd1;
 	// t_cmd	cmd2;
-	int		ex_s = 0;
+	int		ex_s = 1;
 	char	**tmp_env = NULL;
 
-	char *cmdd[] = {"ls", "-z", NULL};
+	char *cmdd[] = {"unset", "NAME", "=", NULL};
 	char *i_tabb[] = {NULL};
 	int sign_ii[] = {0};
 	char *o_tabb[] = {NULL};
@@ -106,7 +106,6 @@ int	main(int ac, char **av, char **env)
 ft_print_cmd(&cmd1);
 	ft_tmp_env(&tmp_env, env);
 	ft_executor(&cmd1, tmp_env, &ex_s);
-	ft_free_c2d(tmp_env);
 printf("exit_status %d\n", ex_s);
 	return (0);
 }

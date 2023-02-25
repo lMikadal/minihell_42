@@ -15,24 +15,13 @@
 void	ft_echo(char **cmd)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	if (ft_strncmpp(cmd[1], "-n", 2) == 0)
 		i = 1;
 	while (cmd[++i])
 	{
-		j = -1;
-		while (cmd[i][++j])
-		{
-			if ((cmd[i][0] == '\'' || cmd[i][0] == '\"') && cmd[i][j] == '\\')
-				printf("%c", cmd[i][j]);
-			else if ((cmd[i][0] != '\'' || cmd[i][0] != '\"') \
-				&& cmd[i][j] == '\\')
-				continue ;
-			else if (cmd[i][j] != '\"' && cmd[i][j] != '\'')
-				printf("%c", cmd[i][j]);
-		}
+		printf("%s", cmd[i]);
 		if (cmd[i + 1] != NULL)
 			printf(" ");
 	}

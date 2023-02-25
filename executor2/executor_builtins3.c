@@ -38,7 +38,7 @@ int	ft_chk_dup(char *s, char **env)
 	i = -1;
 	while (env[++i])
 	{
-		if (ft_strncmpp(s, env[i], ft_strlenn(s)) == 0)
+		if (ft_strncmpp(s, env[i], ft_strlen_2(env[i])) == 0)
 			return (0);
 	}
 	return (1);
@@ -51,7 +51,7 @@ int	ft_chk_dup2(char *s, char **env)
 	i = -1;
 	while (env[++i])
 	{
-		if (ft_strncmpp(s, env[i], ft_strlenn(env[i])) == 0)
+		if (ft_strncmpp(s, env[i], ft_strlen_2(s)) == 0)
 			return (0);
 	}
 	return (1);

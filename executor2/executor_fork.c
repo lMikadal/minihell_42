@@ -1,4 +1,16 @@
-#include "executor.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_fork.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmikada <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 13:23:17 by pmikada           #+#    #+#             */
+/*   Updated: 2023/02/25 13:23:19 by pmikada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 static char	*ft_chk_path(t_pipe *pipe, t_data *data)
 {
@@ -74,7 +86,8 @@ static void	ft_set_pipe(t_pipe *p, t_data *data, t_cmd *cmd, int loop)
 		dup2(p->infile, 0);
 	else
 		dup2(data->fd_pipe[loop - 1][0], 0);
-	if (loop == data->count_cmd - 1 && cmd->o_tab[0] == NULL && cmd->sign_o[0] == 0)
+	if (loop == data->count_cmd - 1 && cmd->o_tab[0] == NULL \
+		&& cmd->sign_o[0] == 0)
 		dup2(data->ori_fd[1], 1);
 	else if (ft_chk_outfile(p, cmd))
 		dup2(p->outfile, 1);
@@ -93,9 +106,12 @@ void	ft_fork(t_cmd *cmd, t_data *data, int loop)
 	{
 		ft_set_pipe(&p, data, cmd, loop);
 		ft_close(data, loop);
-		ft_chk_child(&p, data);
-		execve(p.path, p.cmd, data->env);
-		printf("%s%s\n", p.cmd[0], ERR_CMM);
+		if (ft_chk_builtins(p.cmd[0]) == 0)
+			ft_chk_child(&p, data);
+		else
+			execve(p.path, p.cmd, data->env);
+		if (ft_chk_builtins(p.cmd[0]))
+			printf("%s%s\n", p.cmd[0], ERR_CMM);
 		exit (127);
 	}
 	else if (data->child_pid[loop] > 0)

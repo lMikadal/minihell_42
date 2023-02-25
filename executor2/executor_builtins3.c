@@ -1,4 +1,16 @@
-#include "executor.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_builtins3.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmikada <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 13:30:41 by pmikada           #+#    #+#             */
+/*   Updated: 2023/02/25 13:30:43 by pmikada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 int	ft_count_add(char **cmd, char **env)
 {
@@ -64,7 +76,7 @@ void	ft_insert_export(int *i, int j, t_pipe *p, char **n_env)
 	*i += 1;
 }
 
-int		ft_unset(t_pipe *p, t_data *data, int mode)
+int	ft_unset(t_pipe *p, t_data *data, int mode)
 {
 	int		c_env;
 	int		i;
@@ -73,21 +85,7 @@ int		ft_unset(t_pipe *p, t_data *data, int mode)
 	int		r;
 
 	c_env = ft_strlen_c2d(data->env);
-	i = 1;
-	r = 0;
-	while(p->cmd[i])
-	{
-		if (ft_chk_dup(p->cmd[i], data->env) == 0)
-			c_env--;
-		else if (mode == 1 && ((p->cmd[i][0] <= 'A' || p->cmd[i][0] >= 'Z') \
-			&& (p->cmd[i][0] <= 'a' || p->cmd[i][0] >= 'z') \
-			&& p->cmd[i][0] != '_'))
-		{
-			printf("unset: %c%s\'%s\n", 96, p->cmd[i], ERR_EXPORT);
-			r = 1;
-		}
-		i++;
-	}
+	r = ft_unset2(p, data, mode, &c_env);
 	n_env = malloc(sizeof(char *) * (c_env + 1));
 	i = -1;
 	j = 0;

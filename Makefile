@@ -30,17 +30,10 @@ SRCS	= newnewsh/shdec.c \
 			newnewsh/expanderutil.c \
 			newnewsh/free.c \
 			sigasig/sighand.c \
-			executor/executor.c \
-			executor/executor_utils.c \
-			executor/executor_utils_2.c \
-			executor/executor_utils_3.c \
-			executor/utils.c \
-			executor/utils_2.c \
-			executor/utils_3.c \
-			executor/free.c \
-			executor/builtins.c \
-			executor/builtins_2.c \
-			executor/builtins_3.c\
+			executor2/executor.c executor2/executor2.c \
+			executor2/executor_fork.c executor2/executor_fork2.c executor2/executor_fork3.c\
+			executor2/executor_builtins.c executor2/executor_builtins2.c executor2/executor_builtins3.c executor2/executor_builtins4.c executor2/executor_builtins5.c \
+			executor2/utils.c executor2/utils2.c executor2/utils3.c executor2/utils4.c executor2/free.c \
 			g_n_l/g_n_l.c \
 			g_n_l/g_n_l_utils.c
 
@@ -100,7 +93,7 @@ badvoice:
 norm:
 	@say -v kanya เช็คนอม หน่อยนะค่ะ /
 	norminette -R checkforbiddensourceheader $(FILES)
-	norminette -R checkdefine philo.h
+	norminette -R checkdefine minishell.h struct.h
 
 clean:
 	@make clean -C libft/

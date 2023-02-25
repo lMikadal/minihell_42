@@ -1,4 +1,16 @@
-#include "executor.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_builtins2.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmikada <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 13:40:36 by pmikada           #+#    #+#             */
+/*   Updated: 2023/02/25 13:40:38 by pmikada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 static int	ft_strcmp_ori(char *s1, char *s2)
 {
@@ -75,40 +87,28 @@ void	ft_print_export(char **env)
 	tmp[i] = NULL;
 	ft_sort(tmp, c_env);
 	ft_write(tmp, c_env);
-	ft_free_c2d(tmp);
+	i = -1;
+	while (++i < c_env)
+		free(tmp[i]);
+	free(tmp);
 }
 
-int	ft_add_export(t_pipe *p, t_data *data, int mode)
+int	ft_add_export(t_pipe *p, t_data **data, int mode)
 {
 	int		c_add;
 	char	**n_env;
 	int		i;
-	int		j;
 	int		r;
 
-	c_add = ft_count_add(p->cmd, data->env);
-	n_env = malloc(sizeof(char *) * (ft_strlen_c2d(data->env) + c_add + 1));
+	c_add = ft_count_add(p->cmd, data[0]->env);
+	n_env = malloc(sizeof(char *) * (ft_strlen_c2d(data[0]->env) + c_add + 1));
 	i = -1;
-	while (data->env[++i])
-		n_env[i] = ft_strdupp(data->env[i]);
-	j = 1;
-	r = 0;
-	while (p->cmd[j])
-	{
-		if (((p->cmd[j][0] >= 'A' && p->cmd[j][0] <= 'Z') \
-			|| (p->cmd[j][0] >= 'a' && p->cmd[j][0] <= 'z') \
-			|| p->cmd[j][0] == '_'))
-			ft_insert_export(&i, j, p, n_env);
-		else if (mode == 1)
-		{
-			printf("export: %c%s\'%s\n", 96, p->cmd[j], ERR_EXPORT);
-			r = 1;
-		}
-		j++;
-	}
+	while (data[0]->env[++i])
+		n_env[i] = ft_strdupp(data[0]->env[i]);
+	r = ft_add_export2(&i, mode, p, n_env);
 	n_env[i] = NULL;
-	ft_free_c2d(data->env);
-	data->env = NULL;
-	data->env = n_env;
+	ft_free_c2d(data[0]->env);
+	data[0]->env = NULL;
+	data[0]->env = n_env;
 	return (r);
 }

@@ -11,14 +11,8 @@
 /* ************************************************************************** */
 
 #ifndef EXECUTOR_H
-#include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
-# include <sys/wait.h>
-# include "g_n_l.h"
-
 # define EXECUTOR_H
+
 # define PATH "PATH="
 # define PWD "PWD="
 # define OLDPWD "OLDPWD="
@@ -32,20 +26,6 @@
 # define ERR_EXIT_N ": numeric argument required"
 # define ERR_NFD ": No such file or directory"
 # define ERR_HNS ": HOME not set"
-
-typedef struct s_cmd
-{
-	char			**cmd;
-	char			*pth;
-	char			**i_tab;
-	int				*sign_i;
-	char			**o_tab;
-	int				*sign_o;
-	int				in_count;
-	int				out_count;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-}	t_cmd;
 
 typedef struct s_pipe
 {
@@ -66,10 +46,8 @@ typedef struct s_data
 	int		*ex_s;
 }	t_data;
 
-// main
-void	ft_print_env(char **env); // print **char
 // executor
-void	ft_executor(t_cmd *cmd, char **env, int	*ex_s);
+void	ft_executor(t_cmd *cmd, t_data *data, int	*ex_s);
 // executor2
 int		ft_chk_io_file(t_cmd *cmd, int *ex_s);
 // executor_fork
@@ -89,7 +67,7 @@ int		ft_pwd(int mode);
 int		ft_export(t_pipe *p, t_data *data, int mode);
 // executor_builtins2
 void	ft_print_export(char **env);
-int		ft_add_export(t_pipe *p, t_data *data, int mode);
+int		ft_add_export(t_pipe *p, t_data **data, int mode);
 // executor_builtins3
 int		ft_count_add(char **cmd, char **env);
 int		ft_chk_dup(char *s, char **env);
@@ -98,6 +76,9 @@ int		ft_unset(t_pipe *p, t_data *data, int mode);
 // executor_builtins4
 void	ft_env(char **env);
 void	ft_exit(t_pipe *p, t_data *data);
+int		ft_unset2(t_pipe *p, t_data *data, int mode, int *c_env);
+// executor_builtins5
+int		ft_add_export2(int *i, int mode, t_pipe *p, char **n_env);
 // utils
 int		ft_strlenn(char *s);
 int		ft_strlen_c2d(char **s);
@@ -119,7 +100,7 @@ int		ft_strlen_2(char *s);
 // free
 void	ft_free_c2d(char **s);
 void	ft_free_i2d(int	**s, int size);
-void	ft_free_data(t_data *data);
+void	ft_free_data(t_data *data, char *s);
 void	ft_free_pipe(t_pipe *pipe);
 
 #endif

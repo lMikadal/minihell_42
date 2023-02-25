@@ -14,8 +14,8 @@
 # define MINISHELL_H
 
 # include <stdio.h>
-// # include <readline/readline.h>
-// # include <readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
@@ -25,10 +25,11 @@
 # include <string.h>
 # include <sys/ioctl.h>
 # include <errno.h>
-// # include <term.h>
-# include "executor/executor.h"
+# include <term.h>
+# include "struct.h"
 # include "g_n_l/g_n_l.h"
 # include "libft/libft.h"
+# include "executor2/executor.h"
 
 # define SINGLE 1
 # define DOUBLE 2
@@ -41,109 +42,6 @@
 # define CYAN "\e[1;36m"
 # define YELLOW "\e[1;33m"
 # define CLEAR "\033[0m"
-
-typedef struct s_env
-{
-	char	**tmp_env;
-	char	**export;
-}	t_env;
-
-typedef struct s_envargetter
-{
-	int		j;
-	char	*evchar;
-	int		k;
-}	t_envargetter;
-
-typedef struct s_parinsert
-{
-	int	i;
-	int	j;
-	int	k;
-	int	l;
-}	t_parinsert;
-
-typedef struct s_lex
-{
-	int			cindex;
-	char		*trimstr;
-	char		*allstr;
-	char		**lexed;
-	char		***lextable;
-	int			qmode;
-}	t_lex;
-
-typedef struct s_par
-{
-	char			**cmd;
-	char			**i_tab;
-	char			**o_tab;
-	struct s_par	*next;
-	struct s_par	*prev;
-}	t_par;
-
-typedef struct s_decor
-{
-	char	*pmptclr;
-	char	*inpclr;
-	char	*pmptstr;
-	char	*pmptfull;
-	char	*fullpmt;
-}	t_decor;
-
-typedef struct s_intvar
-{
-	int	q;
-	int	st;
-	int	ed;
-	int	i;
-	int	m;
-	int	n;
-}	t_intvar;
-
-typedef struct s_exp
-{
-	char			**envar;
-	char			**fullvar;
-	char			**i_tab;
-	char			**full_i;
-	char			**o_tab;
-	char			**full_o;
-	struct s_exp	*next;
-	struct s_exp	*prev;
-}	t_exp;
-
-typedef struct s_cmd
-{
-	char			**cmd;
-	char			*pth;
-	char			**i_tab;
-	int				*sign_i;
-	char			**o_tab;
-	int				*sign_o;
-	int				in_count;
-	int				out_count;
-	struct s_cmd	*next;
-	struct s_cmd	*prev;
-}	t_cmd;
-
-typedef struct s_shell
-{
-	t_lex	*lex;
-	t_par	*par;
-	t_decor	*decor;
-	t_exp	*exp;
-	t_cmd	*tcmd;
-}	t_shell;
-
-// executor
-void	ft_close_parent(t_data *data, int loop);
-void	ft_executor(t_cmd *cmd, t_env *env, int *ex_s);
-// executor_utils
-void	ft_serch_path(t_data *data, t_env *env);
-int		ft_count_cmd(t_cmd *cmd);
-// executor_utils_2
-void	ft_set_pipe(t_pipe *pipe, t_data *data, t_cmd *cmd, int loop);
 
 // shdec
 char	*ft_promptstart(int mode);
@@ -178,11 +76,11 @@ void	ft_instcmdtopar(t_shell *shell, t_par *par, int ststlen, int j);
 void	ft_parinsert2(char **str, t_parinsert *tmp, t_par *par, t_cmd *tcmd);
 void	ft_parinsert_init(t_parinsert *tmp, char **str);
 // expander c
-char	*ft_envcompare(char *str, char **env);
+char	*ft_envcompare(char *str, char **env, int *exit_s);
 char	*ft_putpath(char **cmd, char **envar, char **fullvar, int i);
 // expander_utils
 char	*ft_envargetter(char **cmd, int i);
-int		ft_expander(t_shell *shell, char **env);
+int		ft_expander(t_shell *shell, char **env, int *exit_s);
 // expander_utils2
 int		ft_exptostr(t_shell *shell);
 // expanderutil

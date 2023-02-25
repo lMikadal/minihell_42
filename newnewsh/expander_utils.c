@@ -15,7 +15,8 @@
 static void	ft_envargetter_2(t_envargetter *tmp, char **cmd, int i)
 {
 	tmp->j++;
-	while (cmd[i][tmp->j] && ft_isalnum(cmd[i][tmp->j]) == 1)
+	while (cmd[i][tmp->j] && (ft_isalnum(cmd[i][tmp->j]) == 1 || \
+		cmd[i][tmp->j] == '?'))
 	{
 		tmp->evchar[tmp->k] = cmd[i][tmp->j];
 		tmp->k++;
@@ -45,7 +46,7 @@ char	*ft_envargetter(char **cmd, int i)
 	return (tmp.evchar);
 }
 
-static void	ft_expander_2(t_exp *exptmp, t_par *partmp, char **env)
+static void	ft_expander_2(t_exp *exptmp, t_par *partmp, char **env, int *exit_s)
 {
 	int	i;
 
@@ -54,13 +55,13 @@ static void	ft_expander_2(t_exp *exptmp, t_par *partmp, char **env)
 	{
 		exptmp->envar[i] = ft_envargetter(partmp->cmd, i);
 		exptmp->envar[i + 1] = NULL;
-		exptmp->fullvar[i] = ft_envcompare(exptmp->envar[i], env);
+		exptmp->fullvar[i] = ft_envcompare(exptmp->envar[i], env, exit_s);
 		exptmp->fullvar[i + 1] = NULL;
 		i++;
 	}
 }
 
-static void	ft_expander_3(t_exp *exptmp, t_par *partmp, char **env)
+static void	ft_expander_3(t_exp *exptmp, t_par *partmp, char **env, int *exit_s)
 {
 	int	i;
 
@@ -69,13 +70,13 @@ static void	ft_expander_3(t_exp *exptmp, t_par *partmp, char **env)
 	{
 		exptmp->i_tab[i] = ft_envargetter(partmp->i_tab, i);
 		exptmp->i_tab[i + 1] = NULL;
-		exptmp->full_i[i] = ft_envcompare(exptmp->i_tab[i], env);
+		exptmp->full_i[i] = ft_envcompare(exptmp->i_tab[i], env, exit_s);
 		exptmp->full_i[i + 1] = NULL;
 		i++;
 	}
 }
 
-int	ft_expander(t_shell *shell, char **env)
+int	ft_expander(t_shell *shell, char **env, int *exit_s)
 {
 	int		i;
 	t_exp	*exptmp;
@@ -85,14 +86,14 @@ int	ft_expander(t_shell *shell, char **env)
 	while (partmp != NULL)
 	{
 		exptmp = ft_expini(shell);
-		ft_expander_2(exptmp, partmp, env);
-		ft_expander_3(exptmp, partmp, env);
+		ft_expander_2(exptmp, partmp, env, exit_s);
+		ft_expander_3(exptmp, partmp, env, exit_s);
 		i = 0;
 		while (partmp->o_tab[i])
 		{
 			exptmp->o_tab[i] = ft_envargetter(partmp->o_tab, i);
 			exptmp->o_tab[i + 1] = NULL;
-			exptmp->full_o[i] = ft_envcompare(exptmp->o_tab[i], env);
+			exptmp->full_o[i] = ft_envcompare(exptmp->o_tab[i], env, exit_s);
 			exptmp->full_o[i + 1] = NULL;
 			i++;
 		}

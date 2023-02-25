@@ -1,4 +1,16 @@
-#include "executor.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_fork2.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmikada <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 13:17:16 by pmikada           #+#    #+#             */
+/*   Updated: 2023/02/25 13:17:17 by pmikada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 void	ft_close(t_data *data, int loop)
 {
@@ -68,7 +80,11 @@ void	ft_chk_child(t_pipe *p, t_data *data)
 		ft_unset(p, data, PRT);
 	else if (ft_strncmpp(p->cmd[0], "env", 3) == 0)
 		ft_env(data->env);
-	exit(0);
+	if (ft_strncmpp(p->cmd[0], "pwd", 3) == 0 || \
+		ft_strncmpp(p->cmd[0], "export", 6) == 0 || \
+		ft_strncmpp(p->cmd[0], "unset", 5) == 0 || \
+		ft_strncmpp(p->cmd[0], "env", 3) == 0)
+		exit(0);
 }
 
 void	ft_chk_parent(t_pipe *p, t_data *data, t_cmd *cmd)
@@ -83,4 +99,6 @@ void	ft_chk_parent(t_pipe *p, t_data *data, t_cmd *cmd)
 		*(data->ex_s) = ft_unset(p, data, NPRT);
 	else if (ft_strncmpp(p->cmd[0], "exit", 4) == 0)
 		ft_exit(p, data);
+	else if (ft_strncmpp(p->cmd[0], "$?", 2) == 0)
+		printf("%d: command not found\n", *(data->ex_s));
 }

@@ -1,4 +1,16 @@
-#include "executor.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor_builtins.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmikada <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 13:50:12 by pmikada           #+#    #+#             */
+/*   Updated: 2023/02/25 13:50:14 by pmikada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 void	ft_echo(char **cmd)
 {
@@ -95,6 +107,6 @@ int	ft_export(t_pipe *p, t_data *data, int mode)
 		r = 0;
 	}
 	else
-		r = ft_add_export(p, data, mode);
+		r = ft_add_export(p, &data, mode);
 	return (r);
 }

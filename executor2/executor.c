@@ -1,4 +1,16 @@
-#include "executor.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmikada <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 13:51:04 by pmikada           #+#    #+#             */
+/*   Updated: 2023/02/25 13:51:06 by pmikada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 static void	ft_serch_path(t_data *data, char **env)
 {
@@ -56,32 +68,30 @@ static void	ft_init_pipe(t_data *data)
 		pipe(data->fd_pipe[i]);
 }
 
-void	ft_executor(t_cmd *cmd, char **env, int	*ex_s)
+void	ft_executor(t_cmd *cmd, t_data *data, int	*ex_s)
 {
-	t_data	data;
 	int		i;
 
 	if (ft_chk_io_file(cmd, ex_s))
 		return ;
-	ft_serch_path(&data, env);
-	data.ex_s = ex_s;
+	ft_serch_path(data, data->env);
+	data->ex_s = ex_s;
 	i = -1;
-	while (data.path != NULL && data.path[++i])
-		data.path[i] = ft_strjoin_free(data.path[i], "/");
-	ft_set_ori_fd(&data);
-	data.count_cmd = ft_count_cmd(cmd);
-	data.child_pid = malloc(sizeof(int) * data.count_cmd);
-	if (data.count_cmd > 1)
-		ft_init_pipe(&data);
+	while (data->path != NULL && data->path[++i])
+		data->path[i] = ft_strjoin_free(data->path[i], "/");
+	ft_set_ori_fd(data);
+	data->count_cmd = ft_count_cmd(cmd);
+	data->child_pid = malloc(sizeof(int) * data->count_cmd);
+	if (data->count_cmd > 1)
+		ft_init_pipe(data);
 	i = -1;
 	while (cmd)
 	{
-		ft_fork(cmd, &data, ++i);
+		ft_fork(cmd, data, ++i);
 		cmd = cmd->next;
 	}
 	i = -1;
-	while (++i < data.count_cmd)
-		waitpid(data.child_pid[i], NULL, 0);
-ft_print_env(data.env);
-	ft_free_data(&data);
+	while (++i < data->count_cmd)
+		waitpid(data->child_pid[i], NULL, 0);
+	ft_free_data(data, "noexit");
 }

@@ -1,4 +1,16 @@
-#include "executor.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pmikada <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/25 13:50:46 by pmikada           #+#    #+#             */
+/*   Updated: 2023/02/25 13:50:47 by pmikada          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 int	ft_chk_io_file(t_cmd *cmd, int *ex_s)
 {
@@ -7,7 +19,7 @@ int	ft_chk_io_file(t_cmd *cmd, int *ex_s)
 	tmp = cmd;
 	while (tmp)
 	{
-		if (ft_strlen_c2d(tmp->i_tab) != ft_strlen_i(tmp->sign_i) ||
+		if (ft_strlen_c2d(tmp->i_tab) != ft_strlen_i(tmp->sign_i) || \
 			ft_strlen_c2d(tmp->o_tab) != ft_strlen_i(tmp->sign_o))
 		{
 			printf("syntax error near unexpected token\n");

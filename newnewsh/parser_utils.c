@@ -96,11 +96,11 @@ t_cmd	*ft_tcmdini(t_shell *shell, int i)
 		tmp->cmd[j++] = NULL;
 	tmp->in_count = ft_choosecount(shell->lex->lextable[i], '<');
 	tmp->i_tab = malloc(sizeof(char *) * (tmp->in_count + 1));
-	tmp->sign_i = ft_calloc(tmp->in_count, sizeof(int));
+	tmp->sign_i = ft_calloc(tmp->in_count + 10, sizeof(int));
 	tmp->i_tab[tmp->in_count] = NULL;
 	tmp->out_count = ft_choosecount(shell->lex->lextable[i], '>');
 	tmp->o_tab = malloc(sizeof(char *) * (tmp->out_count + 1));
-	tmp->sign_o = malloc(sizeof(int) * tmp->out_count);
+	tmp->sign_o = ft_calloc(tmp->out_count + 10, sizeof(int));
 	tmp->o_tab[tmp->out_count] = NULL;
 	i++;
 	return (tmp);

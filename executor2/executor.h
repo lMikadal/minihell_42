@@ -103,4 +103,7 @@ void	ft_free_i2d(int	**s, int size);
 void	ft_free_data(t_data *data, char *s);
 void	ft_free_pipe(t_pipe *pipe);
 
+int	ft_atoi(const char *str);
+int	ft_isdigit(int c);
+
 #endif

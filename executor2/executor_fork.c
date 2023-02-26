@@ -81,14 +81,12 @@ static int	ft_chk_outfile(t_pipe *pipe, t_cmd *cmd)
 
 static void	ft_set_pipe(t_pipe *p, t_data *data, t_cmd *cmd, int loop)
 {
-printf("---\n");
 	if (loop == 0 && cmd->i_tab[0] == NULL && cmd->sign_i[0] == 0)
 		dup2(data->ori_fd[0], 0);
 	else if (ft_chk_infile(p, cmd))
 		dup2(p->infile, 0);
 	else
 		dup2(data->fd_pipe[loop - 1][0], 0);
-printf("===\n");
 	if (loop == data->count_cmd - 1 && cmd->o_tab[0] == NULL \
 		&& cmd->sign_o[0] == 0)
 		dup2(data->ori_fd[1], 1);
@@ -106,15 +104,13 @@ void	ft_fork(t_cmd *cmd, t_data *data, int loop)
 	data->child_pid[loop] = fork();
 	if (data->child_pid[loop] == 0)
 	{
-printf("in\n");
 		ft_set_pipe(&p, data, cmd, loop);
-printf("out\n");
 		ft_close(data, loop);
-		if (ft_chk_builtins(p.cmd[0]) == 0)
+		if (p.cmd[0] != NULL && ft_chk_builtins(p.cmd[0]) == 0)
 			ft_chk_child(&p, data);
 		else
 			execve(p.path, p.cmd, data->env);
-		if (ft_chk_builtins(p.cmd[0]))
+		if (p.cmd[0] != NULL && ft_chk_builtins(p.cmd[0]))
 			printf("%s%s\n", p.cmd[0], ERR_CMM);
 		exit (127);
 	}
@@ -122,9 +118,9 @@ printf("out\n");
 	{
 		ft_chk_parent(&p, data, cmd);
 		ft_close_parent(data, loop);
-		if (p.path == NULL && ft_chk_builtins(p.cmd[0]))
+		if (p.cmd[0] != NULL && p.path == NULL && ft_chk_builtins(p.cmd[0]))
 			*(data->ex_s) = 127;
-		else if ((p.path != NULL || ft_chk_builtins(p.cmd[0]) == 0) \
+		else if (p.cmd[0] != NULL &&(p.path != NULL || ft_chk_builtins(p.cmd[0]) == 0) \
 			&& ft_strncmpp(p.cmd[0], "$?", 2))
 			*(data->ex_s) = 0;
 	}

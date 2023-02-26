@@ -89,16 +89,19 @@ void	ft_chk_child(t_pipe *p, t_data *data)
 
 void	ft_chk_parent(t_pipe *p, t_data *data, t_cmd *cmd)
 {
-	if (ft_strncmpp(p->cmd[0], "cd", 2) == 0)
-		ft_cd(p, data, cmd);
-	else if (ft_strncmpp(p->cmd[0], "pwd", 3) == 0)
-		*(data->ex_s) = ft_pwd(NPRT);
-	else if (ft_strncmpp(p->cmd[0], "export", 6) == 0)
-		*(data->ex_s) = ft_export(p, data, NPRT);
-	else if (ft_strncmpp(p->cmd[0], "unset", 5) == 0)
-		*(data->ex_s) = ft_unset(p, data, NPRT);
-	else if (ft_strncmpp(p->cmd[0], "exit", 4) == 0)
-		ft_exit(p, data);
-	else if (ft_strncmpp(p->cmd[0], "$?", 2) == 0)
-		printf("%d: command not found\n", *(data->ex_s));
+	if (p->cmd[0] != NULL)
+	{
+		if (ft_strncmpp(p->cmd[0], "cd", 2) == 0)
+			ft_cd(p, data, cmd);
+		else if (ft_strncmpp(p->cmd[0], "pwd", 3) == 0)
+			*(data->ex_s) = ft_pwd(NPRT);
+		else if (ft_strncmpp(p->cmd[0], "export", 6) == 0)
+			*(data->ex_s) = ft_export(p, data, NPRT);
+		else if (ft_strncmpp(p->cmd[0], "unset", 5) == 0)
+			*(data->ex_s) = ft_unset(p, data, NPRT);
+		else if (ft_strncmpp(p->cmd[0], "exit", 4) == 0)
+			ft_exit(p, data);
+		else if (ft_strncmpp(p->cmd[0], "$?", 2) == 0)
+			printf("%d: command not found\n", *(data->ex_s));
+	}
 }
